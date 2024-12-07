@@ -57,11 +57,27 @@ def login():
                 
         
           
+@app.route('/produse',methods=['GET'])
+def  get_products():
+    try:
+        with connection.cursor() as cursor:
+            query_produse = "select * from produse"
+            cursor.execute(query_produse)
+            produse = cursor.fetchall() 
+            query_tip_produse = "select * from tipproduse"
+            cursor.execute(query_tip_produse)
+            tip_produse = cursor.fetchall()
 
-@app.route('/home')
+        return jsonify({
+             "tipuri produse": tip_produse,
+             "produse": produse
+        })
+    except Exception as e:
+         return jsonify({"eroare": str(e)})
+              
+                
 
-def  index():
-    return "Salutare"
+
 
 
 if __name__ == "__main__":
